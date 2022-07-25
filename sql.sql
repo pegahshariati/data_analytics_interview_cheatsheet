@@ -47,12 +47,11 @@ UPDATE users
 SET salary = 34000
 WHERE name = 'Pegah';
 
---fetch all data from employees and sales tables
+--fetch geo_id and population data from population_by_zip_2010 & zip_codes tables using inner join
 SELECT geo_id, population
 FROM`bigquery-public-data.census_bureau_usa.population_by_zip_2010` census
 INNER JOIN `bigquery-public-data.geo_us_boundaries.zip_codes` zip
-ON(census.zipcode = zip.zip_code
-)
+ON(census.zipcode = zip.zip_code)
 
 
 
