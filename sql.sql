@@ -124,7 +124,11 @@ WHERE zip.state_code = 'CA'
 ORDER BY census.population DESC
 LIMIT 1
 
+-- delete duplicate rows from table using NOT IN
+DELETE FROM table WHERE id NOT IN (
+SELECT MAX(id) FROM table GROUP BY col1, col2, col3)
 
--- create table Employee
-
-
+-- Return duplicated rowsfrom table
+SELECT *
+FROM table 
+WHERE id Not IN (SELECT MAX(id) FROM table GROUP BY col1, col2, col3)
