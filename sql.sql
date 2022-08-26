@@ -162,8 +162,19 @@ WHERE n > 2
 SELECT lower(name) as Name
 
 #concatenate first and last name and capitalize the fist letter of each word
-SELECT concat (initcap(firstname), ' ', initcap(lastname)) AS shortlist
+SELECT INITCAP (concat(firstname, ' ', lastname)) AS shortlist
 FROM Elves
 WHERE firstname LIKE 'tegil%' OR lastname LIKE 'astar%'
 
-#
+#convert number to hexadecimal
+SELECT to_hex(id) as hex_id
+FROM Elves
+
+#first_name with at least 6 character long
+SELECT firstname
+
+replace any digit below 5 with '0' and any digit 5 and above with '1'. Return the resulting string
+SELECT replace(id, '0', '1') as id
+
+getting lenght of a string
+SELECT length(id) as id_length
