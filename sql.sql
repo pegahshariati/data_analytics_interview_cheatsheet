@@ -132,3 +132,38 @@ SELECT MAX(id) FROM table GROUP BY col1, col2, col3)
 SELECT *
 FROM table 
 WHERE id Not IN (SELECT MAX(id) FROM table GROUP BY col1, col2, col3)
+
+--getting avg area lands by state using window aggregate function
+SELECT first_name, avg(salary) OVERE (PARTITION BY first_name) AS avg_salary
+FROM table
+
+--Unique Users Per Client Per Month
+SELECT client_id, month, count(distinct user_id) AS unique_users
+
+
+#write a query that returns a first date of the month, a number of posts created in a given month and a month-over-month growth rate.
+SELECT CAST(date_trunc('month', created_at) as DATE) as date,
+       count(*) as count,
+       ROUND(100*(1.0 * count(*)/LAG(count(*)) OVER (ORDER BY CAST(date_trunc('month', created_at) as DATE) ASC) - 1), 1) || '%' as percent_growth    
+FROM posts
+GROUP BY date
+ORDER BY date asc
+
+#insert name, age and attending to the guest list
+INSERT INTO participants (name, age, attending)
+VALUES ('Pegah', '29', 'True'), ('Jane', '26', 'True')
+
+#Find the total sum of internal angles (in degrees) in an n-sided simple polygon. N will be greater than 2
+select (n - 2)* 180 as res
+from angle
+WHERE n > 2
+
+#lowercase
+SELECT lower(name) as Name
+
+#concatenate first and last name and capitalize the fist letter of each word
+SELECT concat (initcap(firstname), ' ', initcap(lastname)) AS shortlist
+FROM Elves
+WHERE firstname LIKE 'tegil%' OR lastname LIKE 'astar%'
+
+#
