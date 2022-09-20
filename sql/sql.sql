@@ -141,7 +141,7 @@ FROM table
 SELECT client_id, month, count(distinct user_id) AS unique_users
 
 
-#write a query that returns a first date of the month, a number of posts created in a given month and a month-over-month growth rate.
+--write a query that returns a first date of the month, a number of posts created in a given month and a month-over-month growth rate.
 SELECT CAST(date_trunc('month', created_at) as DATE) as date,
        count(*) as count,
        ROUND(100*(1.0 * count(*)/LAG(count(*)) OVER (ORDER BY CAST(date_trunc('month', created_at) as DATE) ASC) - 1), 1) || '%' as percent_growth    
@@ -149,28 +149,28 @@ FROM posts
 GROUP BY date
 ORDER BY date asc
 
-#insert name, age and attending to the guest list
+--insert name, age and attending to the guest list
 INSERT INTO participants (name, age, attending)
 VALUES ('Pegah', '29', 'True'), ('Jane', '26', 'True')
 
-#Find the total sum of internal angles (in degrees) in an n-sided simple polygon. N will be greater than 2
+--Find the total sum of internal angles (in degrees) in an n-sided simple polygon. N will be greater than 2
 select (n - 2)* 180 as res
 from angle
 WHERE n > 2
 
-#lowercase
+--lowercase
 SELECT lower(name) as Name
 
-#concatenate first and last name and capitalize the fist letter of each word
+--concatenate first and last name and capitalize the fist letter of each word
 SELECT INITCAP (concat(firstname, ' ', lastname)) AS shortlist
 FROM Elves
 WHERE firstname LIKE 'tegil%' OR lastname LIKE 'astar%'
 
-#convert number to hexadecimal
+--convert number to hexadecimal
 SELECT to_hex(id) as hex_id
 FROM Elves
 
-#first_name with at least 6 character long
+--first_name with at least 6 character long
 SELECT firstname
 
 replace any digit below 5 with '0' and any digit 5 and above with '1'. Return the resulting string
@@ -178,3 +178,22 @@ SELECT replace(id, '0', '1') as id
 
 getting lenght of a string
 SELECT length(id) as id_length
+
+
+--sum of all customers expense for renting dvd that in their first name they have "Ma"
+SELECT city, postal_code, store_id, last_name, first_name, SUM(amount) 
+FROM city
+JOIN address ON (city.city_id = address.city_id)
+JOIN customer ON (customer.address_id = address.address_id)
+JOIN payment ON (payment.customer_id = customer.customer_id)
+WHERE first_name LIKE 'Ma%'
+GROUP BY city, postal_code, store_id, last_name, first_name 
+ORDER BY SUM(amount) Desc
+LIMIT 35
+
+--get the top 10% of the amount spent on rent video
+SELECT T.payment_id, T.amount, T.cumm_dist
+FROM (SELECT payment_id, amount, CUME_DIST() OVER(ORDER BY amount) cumm_dist
+FROM payment) AS T
+WHERE T.cumm_dist > 0.90
+
